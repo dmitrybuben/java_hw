@@ -7,42 +7,36 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class task2 {
-    public static void main(String[] args) {
-        inputLog();
-        inputPass();
+    public static void main(String[] args) throws InterruptedException {
+        int count = 6;
+        Auth(count);
     }
 
-    public static void inputLog() {
+    public static void Auth(int n) throws InterruptedException {
         Scanner sc = new Scanner(System.in);
         try {
             System.out.println("Login: ");
             String lCheck = sc.nextLine();
             String login = "admin";
-            if (lCheck.equals(login)) {
-                System.out.println("Login is ok");
-            } else {
-                throw new IOException("Login doesn't exist");
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            inputLog();
-        }
-    }
-
-    public static void inputPass(){
-        Scanner sc = new Scanner(System.in);
-        try {
             System.out.println("Password: ");
             String pCheck = sc.nextLine();
             String pass = "12345";
-            if(pCheck.equals(pass)){
-                System.out.println("Pass is ok, you are in");
-            }else{
-                throw new IOException("Pass is wrong");
+            if (lCheck.equals(login) && pCheck.equals(pass)) {
+                System.out.println("You are logged in successfully");
+            } else {
+                throw new IOException("Login or password doesn't exist");
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            inputPass();
+            if (n == 4) {
+                System.out.println("Too many requests, wait for 15 seconds");
+                Thread.sleep(15000);
+            }
+            if (n == 1) {
+                System.out.println("System is blocked!");
+                return;
+            }
+            Auth(n-1);
         }
     }
 }
